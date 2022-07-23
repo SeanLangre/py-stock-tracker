@@ -1,21 +1,40 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 import yfinance as yf
+from calc import CalcMean
 
-tickerDatas = pd.read_csv('tickers.csv')
+tickerDatas = pd.read_csv('prod\\tickers.csv')
 
-for tickerData in tickerDatas.Ticker:
-    # for tickerData in ["VOLV-B.ST", "XACTHDIV.ST"]:
-    print(tickerData)
-    ticker = yf.Ticker(tickerData)
-    if not ticker:
+stocks = []
+
+# get data
+# for x, tickerData in enumerate(["0KR.SG", "5J9.F"]):
+for tickerData in tickerDatas.values:
+    tickerValue = tickerData[0]
+    ignore = tickerData[1]
+    if ignore == True:
+        continue
+
+    print(tickerValue)
+    ticker = yf.Ticker(tickerValue)
+    stocks.append(ticker)
+
+for x, stock in enumerate(stocks):
+    if not stock:
         print("yes! the var is null")
 
-    if not 'shortName' in ticker.info:
+    if not 'shortName' in stock.info:
         print("shortName is null")
     else:
-        shortName = ticker.info['shortName']
-        symbol = ticker.info['symbol']
-        hist = ticker.history(period="5y")
-        hist['Close'].plot(figsize=(15, 7), title=symbol+' | '+shortName)
-        plt.show()
+        hist = stock.history(period="5y")
+        result = CalcMean.MeanHigherThanCurrent(hist)
+        #
+        if result:
+            shortName = stock.info['shortName']
+            symbol = stock.info['symbol']
+            print("index " + str(x))
+            axs = hist['Close'].plot(figsize=(15, 7), title=symbol+' | '+shortName)
+            axs.set_title(symbol+' | '+shortName)
+            plt.show()
+        else:
+            plt.close()  # or fig.clear()
