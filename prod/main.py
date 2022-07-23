@@ -1,13 +1,15 @@
 import asyncio
+import os 
+from dotenv import load_dotenv
 import matplotlib.pyplot as plt
 import pandas as pd
 from calc import CalcMean
 from fetcher import fetcher
 
-
 async def StartStockApp():
+    load_dotenv()
     # csv
-    tickerDatas = pd.read_csv('prod\\tickers.csv')
+    tickerDatas = pd.read_csv(os.getenv('DATA_PATH'))
     # fetch data
     stocks = await fetcher.getData(tickerDatas)
     #
@@ -26,8 +28,10 @@ async def StartStockApp():
             #
             if result:
                 shortName = ticker.info['shortName']
-                axs = histClose.plot(figsize=(15, 7), title=symbol+' | '+shortName)
+                axs = histClose.plot( figsize=(15, 7), title=symbol+' | '+shortName)
                 axs.set_title(symbol+' | '+shortName)
+                plt.axvline(['2020-02-21'])
+                # axs.plot(0,['2020-02-21','2020-02-22'], marker="o", label="points")
                 plt.show()
             else:
                 plt.close()  # or fig.clear()

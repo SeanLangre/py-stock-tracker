@@ -1,2 +1,4 @@
 *.stats
 __pycache__
+*.env
+*.bat

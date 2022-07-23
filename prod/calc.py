@@ -4,6 +4,6 @@ class CalcMean:
         lastClose = histClose.iloc[-1]
         bufferedLastClose = lastClose + (mean*0.1)  # +10%
         print('---mean ' + str(mean))
-        print('---bufferedMean ' + str(bufferedLastClose))
+        print('---bufferedLastClose ' + str(bufferedLastClose))
         print('---lastClose ' + str(lastClose))
         return mean > bufferedLastClose
