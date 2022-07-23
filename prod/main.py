@@ -1,12 +1,16 @@
 import asyncio
-import os
-from turtle import color 
-from dotenv import load_dotenv
-from matplotlib import dates
+import time
 import matplotlib.pyplot as plt
 import pandas as pd
+import os
+
+from dotenv import load_dotenv
+from matplotlib import dates
+
+#my classes
 from calc import CalcMean
 from fetcher import fetcher
+from ImageSender import ImageSender
 
 async def StartStockApp():
     load_dotenv()
@@ -36,8 +40,16 @@ async def StartStockApp():
                 axs.xaxis.set_major_locator(dates.MonthLocator(interval=4))
                 plt.axvline(['2020-02-21'], linestyle='dotted', color='tab:red')
                 plt.tight_layout()
-                plt.show()
+                # plt.show()
+                now = time.strftime("%Y%m%d-%H%M%S")
+                folder = 'pics'
+                filename = symbol+'_' + str(now) + '_saved_figure-50pi.png'
+                imagePath = folder+'/'+filename
+                plt.savefig(imagePath, dpi = 50)
+                plt.close()  # or fig.clear()
+                ImageSender.SendImage(imagePath, os.getenv('DISCORD_URL'))
             else:
                 plt.close()  # or fig.clear()
 
 asyncio.run(StartStockApp())
+
