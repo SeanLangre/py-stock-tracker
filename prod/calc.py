@@ -1,9 +1,10 @@
 class CalcMean:
-    def MeanHigherThanCurrent(histClose):
-        mean = histClose.mean()
-        lastClose = histClose.iloc[-1]
-        bufferedLastClose = lastClose + (mean*0.1)  # +10%
-        print('---mean ' + str(mean))
-        print('---bufferedLastClose ' + str(bufferedLastClose))
+    def MeanHigherThanCurrent(ticker):
+        lastSixMonth = ticker.history(period="6mo")['Close'] # last 6 months
+        mean = lastSixMonth.mean()
+        lastClose = lastSixMonth.iloc[-1]
+        bufferedLastClose = lastClose + (mean*0.05)  # +5%
         print('---lastClose ' + str(lastClose))
+        print('---bufferedLastClose ' + str(bufferedLastClose))
+        print('---mean ' + str(mean))
         return mean > bufferedLastClose

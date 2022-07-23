@@ -1,6 +1,8 @@
 import asyncio
-import os 
+import os
+from turtle import color 
 from dotenv import load_dotenv
+from matplotlib import dates
 import matplotlib.pyplot as plt
 import pandas as pd
 from calc import CalcMean
@@ -24,14 +26,16 @@ async def StartStockApp():
             histClose = stock[1]
             symbol = ticker.info['symbol']
             print("{} ({})".format(symbol, x))
-            result = CalcMean.MeanHigherThanCurrent(histClose)
+            result = CalcMean.MeanHigherThanCurrent(ticker)
             #
             if result:
                 shortName = ticker.info['shortName']
                 axs = histClose.plot( figsize=(15, 7), title=symbol+' | '+shortName)
-                axs.set_title(symbol+' | '+shortName)
-                plt.axvline(['2020-02-21'])
-                # axs.plot(0,['2020-02-21','2020-02-22'], marker="o", label="points")
+                roundedLastClose = round(histClose.iloc[-1], 2)
+                axs.set_title(symbol+' | '+shortName+' | '+str(roundedLastClose))
+                axs.xaxis.set_major_locator(dates.MonthLocator(interval=4))
+                plt.axvline(['2020-02-21'], linestyle='dotted', color='tab:red')
+                plt.tight_layout()
                 plt.show()
             else:
                 plt.close()  # or fig.clear()
