@@ -1,4 +1,6 @@
 import asyncio
+import shutil
+import stat
 import time
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -11,6 +13,11 @@ from matplotlib import dates
 from calc import CalcMean
 from fetcher import fetcher
 from ImageSender import ImageSender
+
+def remove_readonly(func, path, _):
+    "Clear the readonly bit and reattempt the removal"
+    os.chmod(path, stat.S_IWRITE)
+    func(path)
 
 async def StartStockApp():
     load_dotenv()
@@ -58,5 +65,10 @@ async def StartStockApp():
                     ImageSender.SendImage(imagePath, os.getenv('DISCORD_URL'), title)
             else:
                 plt.close()  # or fig.clear()
+    if(os.getenv('REMOVE_PICS')):
+        #remove dir
+        shutil.rmtree(folder, onerror=remove_readonly)
+        #create dir
+        os.mkdir(folder)
 
 asyncio.run(StartStockApp())
