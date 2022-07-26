@@ -11,6 +11,6 @@ class fetcher:
 
             print(tickerValue)
             ticker = yf.Ticker(tickerValue)
-            tickerTouple = (ticker, ticker.history(period="4y")['Close'])
+            tickerTouple = (ticker, ticker.history(period="4y"))
             stocks.append(tickerTouple)
         return stocks

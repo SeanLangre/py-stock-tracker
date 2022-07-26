@@ -27,7 +27,10 @@ async def StartStockApp():
         if not 'shortName' in ticker.info:
             print("shortName is null")
         else:
-            histClose = stock[1]
+            histOpen = stock[1]['Open']            
+            histHigh = stock[1]['High']
+            histLow = stock[1]['Low']
+            histClose = stock[1]['Close']
             symbol = ticker.info['symbol']
             print("{} ({})".format(symbol, x))
             result = CalcMean.MeanHigherThanCurrent(ticker)
@@ -35,8 +38,11 @@ async def StartStockApp():
             if result:
                 shortName = ticker.info['shortName']
                 axs = histClose.plot(figsize=(15, 7), title=symbol+' | '+shortName)
+                roundedLastOpen = round(histOpen.iloc[-1], 2)
+                roundedLastHigh = round(histHigh.iloc[-1], 2)
+                roundedLastLow = round(histLow.iloc[-1], 2)
                 roundedLastClose = round(histClose.iloc[-1], 2)
-                title = symbol+' | '+shortName + ' | '+str(roundedLastClose)
+                title = symbol+' | '+shortName + ' | Op: '+str(roundedLastOpen)+' Hi: '+str(roundedLastHigh)+' Lo: '+str(roundedLastLow)+' Cl: '+str(roundedLastClose)
                 axs.set_title(title)
                 axs.xaxis.set_major_locator(dates.MonthLocator(interval=4))
                 plt.axvline(['2020-02-21'], linestyle='dotted', color='tab:red')
