@@ -1,5 +1,6 @@
 import yfinance as yf
 
+
 class fetcher:
     async def getData(tickerDatas):
         stocks = []
