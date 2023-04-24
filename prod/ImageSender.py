@@ -11,3 +11,9 @@ class ImageSender:
             with requests.Session() as s:
                 r = s.post(url, files=files, data=postData)
                 print(r.status_code)
+
+    def SendDeleteMessage(url, msg):
+        postData = {"content": msg}
+        with requests.Session() as s:
+            r = s.post(url, data=postData)
+            print(r.status_code)

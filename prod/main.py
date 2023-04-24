@@ -36,6 +36,8 @@ def GetDailyDiff(open, close):
 
 async def StartStockApp():
     load_dotenv()
+    #delete prev msgs
+    ImageSender.SendDeleteMessage(os.getenv("DISCORD_URL"), "$delete-all")
     # csv
     tickerDatas = pd.read_csv(os.getenv("DATA_PATH"))
     # fetch data
