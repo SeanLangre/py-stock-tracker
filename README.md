@@ -4,7 +4,7 @@
 ![GitHub stars](https://img.shields.io/github/stars/SeanLangre/py-stock-tracker?style=social)
 ![GitHub forks](https://img.shields.io/github/forks/SeanLangre/py-stock-tracker?style=social)
 
-A Python web scraper that monitors Yahoo Stock Market data and sends updates to a Discord server. Keep your Discord community informed about the latest stock market trends with this handy tool!
+A Python web scraper that request data from Yahoo Stock Market and sends updates to a Discord server.
 
 ## Table of Contents
 
